@@ -147,7 +147,7 @@ namespace LinqTests
         }
 
         [TestMethod]
-        public void groupSalary()
+        public void GroupSalary()
         {
             var employees = RepositoryFactory.GetEmployees();
             var actual = WithoutLinq.YourGroup(employees, 3, e => e.MonthSalary);

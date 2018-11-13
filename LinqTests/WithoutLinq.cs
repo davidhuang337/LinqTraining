@@ -126,5 +126,59 @@ namespace LinqSample.WithoutLinq
                 }
             }
         }
+
+        public static IEnumerable<int> YourGroup<T>(IEnumerable<T> sources, int num, Func<T, int> func)
+        {
+            var enumerator = sources.GetEnumerator();
+            int counter = 0;
+            int sum = 0;
+            
+            while (enumerator.MoveNext())
+            {
+                counter++;
+                sum = sum + func(enumerator.Current);
+
+                if (counter == num)
+                {
+                    counter = 0;
+                    yield return sum;
+                    sum = 0;
+                }
+
+            }
+
+            if (sum > 0)
+            {
+                yield return sum;
+            }
+
+
+        }
+
+        public static T YourFirst<T>(IEnumerable<T> sources, Func<T, bool> p)
+        {
+            var enumerator = sources.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (p(enumerator.Current))
+                {
+                    return enumerator.Current;
+                }
+            }
+
+            throw new NotImplementedException();
+        }
+
+        public static T YourLast<T>(IEnumerable<T> sources, Func<T, bool> p)
+        {
+            Stack<T> stack = new Stack<T>();
+            foreach (var element in sources)
+            {
+                stack.Push(element);
+            }
+            return YourFirst(stack, p);
+        }
+
+
     }
 }
