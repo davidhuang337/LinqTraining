@@ -144,15 +144,12 @@ namespace LinqSample.WithoutLinq
                     yield return sum;
                     sum = 0;
                 }
-
             }
 
             if (sum > 0)
             {
                 yield return sum;
             }
-
-
         }
 
         public static T YourFirst<T>(IEnumerable<T> sources, Func<T, bool> p)
