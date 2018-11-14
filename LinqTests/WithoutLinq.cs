@@ -168,12 +168,18 @@ namespace LinqSample.WithoutLinq
 
         public static T YourLast<T>(IEnumerable<T> sources, Func<T, bool> p)
         {
-            Stack<T> stack = new Stack<T>();
-            foreach (var element in sources)
+            var enumerator = sources.GetEnumerator();
+            T last = (T)Activator.CreateInstance(typeof(T));
+
+            while (enumerator.MoveNext())
             {
-                stack.Push(element);
+                if (p(enumerator.Current))
+                {
+                    last = enumerator.Current;
+                }
             }
-            return YourFirst(stack, p);
+
+            return last;
         }
 
 
